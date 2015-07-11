@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+		<record id="hr_category_overtime" model="hr.salary.rule.category">
+			<field name="name">Overtime</field>
+			<field name="code">OT</field>
+		</record>
+		
+		<record id="hr_payroll.hr_rule_overtime" model="hr.salary.rule">
+			<field name="name">Overtime</field>
+			<field name="sequence" eval="10"/>
+			<field name="code">OT</field>
+			<field name="category_id" ref="hr_category_overtime"/>
+			<field name="condition_select">none</field>
+			<field name="amount_select">code</field>
+			<field name="amount_python_compute">result = worked_days.Overtime.number_of_hours * (contract.wage / (30*8))</field>
+		</record>
+	</data>
+</openerp>
+		

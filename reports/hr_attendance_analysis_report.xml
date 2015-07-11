@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<template id="hr_attendance_analysis">
+			<t t-call="report.html_container">
+				<t t-call="report.external_layout">
+					<div class="page" style="font-size:18;">
+						<div class="oe_structure"/>
+						<div class="page-header">
+						</div>
+					
+						<p class="text-right" style="font-size:10;">
+							<span t-esc="print_date()"/>
+						</p>
+						<p class="text-center" style="font-size:20;">
+							Attendance Analysis for <span t-field="docs[0].employee_id.name"/>
+							<br/>
+							From <b><span t-esc="from_date"/></b> To <b><span t-esc="to_date"/></b>
+						</p>
+						<p class="text-left" style="font-size:16;">
+							Employee Name : <span t-field="docs[0].employee_id.name"/>
+							<br/>
+							Job Position : <span t-field="docs[0].employee_id.job_id.name"/>
+							<br/>
+							Department : <span t-field="docs[0].employee_id.department_id.name"/>
+						</p>
+						<br/>
+						<table class="table table-striped">
+							<tr style="font-size:12;">
+								<td>Date</td>
+								<td>Day</td>
+								<td>Sign IN</td>
+								<td>Sign Out</td>
+								<td>Leaves</td>
+								<td>Delays</td>
+								<td>Overtime</td>
+							</tr>
+							<t t-foreach="dates" t-as="date">
+								
+								<tr style="font-size:10;">
+									<td>
+										<span t-esc="date"/>
+									</td>
+									<td>
+										<span t-esc="get_day(date)"/>
+									</td>
+									<td>
+										<span t-esc="get_sign_in_date(docs,date)"/>
+									</td>
+									<td>
+										<span t-esc="get_sign_out_date(docs,date)"/>
+									</td>
+									<td>
+										<span t-esc="get_leave(docs,date)"/>
+									</td>
+									<td>
+										<span t-esc="get_diff_time(docs,get_sign_in_date(docs,date),date)"/>
+									</td>
+									<td>
+										<span t-esc="get_overtime(docs,date)"/>
+									</td>
+									
+								</tr>
+								
+							</t>
+						</table>
+					
+					</div>
+					
+				</t>
+			</t>
+		</template>
+	</data>
+</openerp>

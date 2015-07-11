@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<record id="hr_attendance_reporting_wizard" model="ir.ui.view">
+			<field name="name">hr.attendance.reporting.wizard</field>
+			<field name="model">hr.attendance.reporting</field>
+			<field name="arch" type="xml">
+				<form string="HR Attendance Report Wizard">
+					<separator colspan="4" string="Please, Select an employee to print his/her attendance."/>
+					<group col="4">
+						<field name="attandance_report_id"/>
+						<field name="employee_id"/>
+						<field name="date_from"/>
+						<field name="date_to"/>
+					</group>
+					<footer>
+						<button name="action_print" string="Print" type="object" class="oe_highlight" />
+						<button string="Cancel" class="oe_link" special="cancel"/>
+					</footer>
+			   </form>
+			</field>
+		</record>
+		
+		<record id="action_hr_attendance_report" model="ir.actions.act_window">
+			<field name="name">Attendance Reporting</field>
+			<field name="res_model">hr.attendance.reporting</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="hr_attendance_reporting_wizard"/>
+			<field name="target">new</field>
+		</record>
+		
+		<menuitem name="Reporting" 
+			id="hr_egypt_reporting" 
+			parent="hr.menu_hr_root" 
+			sequence="10"/>
+		
+		<menuitem action="action_hr_attendance_report"
+			id="menu_hr_attendance_reporting"
+			parent="hr_egypt_reporting"
+			sequence="2"/>
+	</data>
+</openerp>

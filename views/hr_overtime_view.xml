@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<!--Overtime Structure Tree-->
+		<record id="tree_hr_overtime_structure_view" model="ir.ui.view">
+			<field name="name">hr.overtime.structure.tree</field>
+			<field name="model">hr.overtime.structure</field>
+			<field name="arch" type="xml">
+				<tree string="Overtime Structure">
+					<field name="name"/>
+					<field name="code"/>
+					<field name="overtime_method"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record id="view_hr_overtime_structure_form" model="ir.ui.view">
+			<field name="name">hr.overtime.structur.form</field>
+			<field name="model">hr.overtime.structure</field>
+			<field name="arch" type="xml">
+				<form string="Overtime Structure">
+					<header>
+						<button name="apply_ov_structure" type="object" string="Apply Overtime Structure" states="draft"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<group col="4">
+							<field name="name"/>
+							<field name="code" placeholder="ov/dev"/>
+							<field name="overtime_method"/>
+							<field name="department_ids" widget="many2many_tags"/>
+						</group>
+						<notebook>
+							<page string="Overtime Rules">
+								<field name="hr_ov_structure_rule_ids">
+									<tree string="Overtime Rules" editable="bottom">
+										<field name="type"/>
+										<field name="rate" widget="float_time"/>
+										<field name="begin_after" widget="float_time" attrs="{'invisible': [('type', 'in', ['official_leave','weekend'])]}"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		
+		<record id="action_hr_overtime_structure" model="ir.actions.act_window">
+			<field name="name">Overtime Structures</field>
+			<field name="res_model">hr.overtime.structure</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		
+		<menuitem name="Overtime Structures"
+			parent="hr_contract.next_id_56"
+			id="menu_hr_overtime_structure"
+			action="action_hr_overtime_structure"
+			sequence="7"/>
+			
+		<!--
+			Contract View
+		-->
+		
+		<record id="view_hr_contract_overtime_inherit" model="ir.ui.view">
+			<field name="name">hr.contract.overtime.form.inherit</field>
+			<field name="model">hr.contract</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='advantages']" position="before">
+					<field name="overtime_structure_id"/>
+				</xpath>
+			</field>
+		</record>
+		
+		
+		<!--Overtime Request Tree-->
+		<record id="tree_hr_overtime_request_view" model="ir.ui.view">
+			<field name="name">hr.overtime.tree</field>
+			<field name="model">hr.overtime</field>
+			<field name="arch" type="xml">
+				<tree string="Overtime Structure">
+					<field name="name"/>
+					<field name="employee_id"/>
+					<field name="from_date"/>
+					<field name="to_date"/>
+					<field name="type"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		
+		<!--Overtime Request Form-->
+		<record id="view_hr_overtime_form" model="ir.ui.view">
+			<field name="name">hr.overtime.form</field>
+			<field name="model">hr.overtime</field>
+			<field name="arch" type="xml">
+				<form string="Overtime Request">
+					<header>
+						<button name="action_sumbit" type="object" string="Submit" states="draft"/>
+						<button name="action_approve" type="object" string="Approve" states="submit"/>
+						<button name="action_set_to_draft" type="object" string="Set To Draft" states="submit,approve"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<group col="4">
+							<field name="name"/>
+							<field name="employee_id" attrs="{'readonly': [('state','=','approve')]}"/>
+							<field name="from_date" attrs="{'readonly': [('state','=','approve')]}"/>
+							<field name="to_date" attrs="{'readonly': [('state','=','approve')]}"/>
+							<field name="actaul_leave_time"/>
+							<field name="total_time" attrs="{'readonly': [('state','=','approve')]}" widget="float_time"/>
+							<field name="type"/>
+							<field name="reason"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<menuitem name="Overtimes"
+			parent="hr.menu_hr_root"
+			id="menu_hr_overtime"
+			sequence="10"/>
+		
+		<record id="action_hr_overtime" model="ir.actions.act_window">
+			<field name="name">Overtime Requests</field>
+			<field name="res_model">hr.overtime</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		
+			
+		<menuitem name="Overtime Requests"
+			parent="menu_hr_overtime"
+			id="menu_hr_overtime_request"
+			action="action_hr_overtime"/>
+		
+	</data>
+</openerp>

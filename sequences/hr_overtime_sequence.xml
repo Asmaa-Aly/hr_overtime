@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate='1'>
+		
+		<!--
+			Sequence Type
+		-->
+		
+		<record id="ir_seq_type_hr_overtime" model="ir.sequence.type">
+			<field name="name">Overtime Request</field>
+			<field name="code">hr.ov.req</field>
+		</record>
+		
+		<!--
+			Sequence
+		-->
+		
+		<record id="ir_seq_hr_overtime" model="ir.sequence">
+			<field name="name">Overtime Request</field>
+			<field name="code">hr.ov.req</field>
+			<field name="prefix">OV</field>
+			<field name="padding">4</field>
+			<field name="number_increment">1</field>
+			<field name="number_next_actual">1</field>
+			<field name="implementation">standard</field>
+		</record>
+		
+	</data>
+</openerp>
